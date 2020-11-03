@@ -8,17 +8,17 @@ in this test project, we are going to clone a simple online marketplace
 
 2. three simple page for search, product description and add to cart
 
-3. every changes in prices of products should done very 3 hour
+3. every changes in prices of products should done every 3 hour
 
 
 ## TODO:
 
-[] think about register/login/logout
+[ ] think about register/login/logout
 
-[] design model for products 
+[ ] design model for products 
 
-[] add api for adding product, change product
+[ ] add api for adding product, change product
 
-[] api for search and catagorized the products
+[ ] api for search and catagorized the products
 
 
