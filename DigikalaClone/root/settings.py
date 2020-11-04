@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'UsersApp.User'
+
 
 # Application definition
 
@@ -51,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'DigikalaClone.urls'
+ROOT_URLCONF = 'root.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'DigikalaClone.wsgi.application'
+WSGI_APPLICATION = 'root.wsgi.application'
 
 
 # Database
