@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from ProductsApp.models import Product, Provider, Stock
+from ProductsApp.models import Product, Store, Stock
 
 User = get_user_model()
 
@@ -17,7 +17,7 @@ class ProductModelTestCase(TestCase):
         self.assertEqual(Product.objects.count(), 1)
         self.assertEqual(product, Product.objects.get(**data))
 
-class ProviderModelTestCase(TestCase):
+class StoreModelTestCase(TestCase):
     def setUp(self):
         self.owner = User.objects.create(phone_number='09121234567', password='password')
     
@@ -28,16 +28,16 @@ class ProviderModelTestCase(TestCase):
             'address': 'green alley'
         }
 
-        store = Provider.objects.create(**data)
+        store = Store.objects.create(**data)
 
-        self.assertEqual(Provider.objects.count(), 1)
-        self.assertEqual(store, Provider.objects.get(**data))
+        self.assertEqual(Store.objects.count(), 1)
+        self.assertEqual(store, Store.objects.get(**data))
 
 
 class StockModelTestCase(TestCase):
     def setUp(self):
         self.owner = User.objects.create(phone_number='09121234567', password='password')
-        self.store = Provider.objects.create(owner = self.owner, name='green garden',
+        self.store = Store.objects.create(owner = self.owner, name='green garden',
                                              address = 'green alley')
         self.product = Product.objects.create(name= 'apple', price= '300',
                                               description='nice, juicy apple')

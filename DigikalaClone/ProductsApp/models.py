@@ -18,12 +18,12 @@ class Product(models.Model):
             'description':self.description
         }
 
-class Provider(models.Model):
+class Store(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=35)
     address = models.CharField(max_length=35)
 
 class Stock(models.Model):
-    store = models.ForeignKey('provider', on_delete=models.CASCADE)
+    store = models.ForeignKey('Store', on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
     unit_in_stock = models.IntegerField(default=0)

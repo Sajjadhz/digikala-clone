@@ -3,7 +3,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from .serializers import AddProductToStockSerializer, GetSingleProductSerializer, CreateProductSerializer,GetProductDetailInStockSerializer
 from django.shortcuts import get_object_or_404
-from .models import Product, Provider, Stock
+from .models import Product, Store, Stock
 from rest_framework import permissions
 
 
@@ -20,6 +20,8 @@ class GetSingleProductAPI(RetrieveAPIView):
     def get_object(self):
         return  Product.objects.get(id=self.kwargs['id'])
 
+class CreateStoreAPI(CreateAPIView):
+    serializer_class = ''
 
 class CreateStockForProductAPI(CreateAPIView):
     serializer_class = AddProductToStockSerializer
@@ -30,7 +32,7 @@ class CreateStockForProductAPI(CreateAPIView):
         product_id = self.kwargs['product_id']
         get_object_or_404(Product.objects.filter(id=product_id))
         
-        if get_object_or_404(Provider.objects.filter(id=store_id)).owner != request.user:
+        if get_object_or_404(Store.objects.filter(id=store_id)).owner != request.user:
             return Response({'error': 'You are not owner of store'}, status=status.HTTP_403_FORBIDDEN)
 
         request.data['store'] = store_id

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Provider, Stock
+from .models import Product, Store, Stock
 
 
 class GetProductSmallSerializer(serializers.ModelSerializer):
@@ -8,9 +8,9 @@ class GetProductSmallSerializer(serializers.ModelSerializer):
         fields = ['id', 'price', 'name',]
 
 
-class ProviderGetSerializer(serializers.ModelSerializer):
+class StoreGetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Provider
+        model = Store
         fields = ['name']
 
 
@@ -27,7 +27,7 @@ class AddProductToStockSerializer(serializers.ModelSerializer):
 
 
 class GetProductDetailInStockSerializer(serializers.ModelSerializer):
-    store = ProviderGetSerializer()
+    store = StoreGetSerializer()
     product = GetProductSmallSerializer()
     class Meta:
         model  = Stock

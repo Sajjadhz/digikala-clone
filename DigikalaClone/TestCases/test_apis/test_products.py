@@ -3,7 +3,7 @@ from django.test.client import CONTENT_TYPE_RE
 from django.test.testcases import TestCase
 from django.urls import reverse
 from rest_framework.test import APITestCase
-from ProductsApp.models import Product, Provider, Stock
+from ProductsApp.models import Product, Store, Stock
 from ProductsApp.serializers import GetProductDetailInStockSerializer
 from rest_framework import status
 
@@ -45,7 +45,7 @@ class AddProductToStoreTestCase(APITestCase):
     def setUp(self):
         self.product1 = Product.objects.create(name='apple', price=300, description='juicy apple')
         self.user = User.objects.create(phone_number='09121234567', password='password')
-        self.store = Provider.objects.create(owner=self.user, name='green', address='address')
+        self.store = Store.objects.create(owner=self.user, name='green', address='address')
         self.client.login(username=self.user.phone_number, password='password')
     
     def test_add_product_to_store(self):
@@ -65,7 +65,7 @@ class GetProductFromStockTestCase(TestCase):
     def setUp(self):
         self.product1 = Product.objects.create(name='apple', price=300, description='juicy apple')
         self.user = User.objects.create(phone_number='09121234567', password='password')
-        self.store = Provider.objects.create(owner=self.user, name='green', address='address')
+        self.store = Store.objects.create(owner=self.user, name='green', address='address')
         self.stock = Stock.objects.create(store=self.store, product=self.product1, unit_in_stock=10)
         self.client.login(username=self.user.phone_number, password='password')
   
@@ -82,7 +82,7 @@ class PublicListOfStockTestCase(TestCase):
         self.product1 = Product.objects.create(name='apple', price=300, description='juicy apple')
         self.product2 = Product.objects.create(name='apple', price=300, description='juicy apple')
         self.user = User.objects.create(phone_number='09121234567', password='password')
-        self.store = Provider.objects.create(owner=self.user, name='green', address='address')
+        self.store = Store.objects.create(owner=self.user, name='green', address='address')
         self.stock1 = Stock.objects.create(store=self.store, product=self.product1, unit_in_stock=10)
         self.stock2 = Stock.objects.create(store=self.store, product=self.product2, unit_in_stock=30)
         
