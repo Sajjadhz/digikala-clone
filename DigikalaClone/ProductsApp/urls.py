@@ -3,6 +3,8 @@ from .apis import *
 
 
 urlpatterns = [
-    path('create/',CreateProductApi.as_view(), name='create-product'),
-    path('get/<int:id>', GetSingleProductApi.as_view(), name='get-product')
+    path('create/',CreateProductAPI.as_view(), name='create-product'),
+    path('store/<int:store_id>/add-product/<int:product_id>',CreateStockForProductAPI.as_view(), name='add-product-to-store'),
+    path('get/<int:id>', GetSingleProductAPI.as_view(), name='get-product'),
+    path('stock/product/<int:product_id>', GetProductDetailInStockAPI.as_view(), name='get-product-from-stock'),
 ]
