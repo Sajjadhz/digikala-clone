@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from .serializers import AddProductToStockSerializer, GetSingleProductSerializer, CreateProductSerializer,GetProductDetailInStockSerializer
 from django.shortcuts import get_object_or_404
@@ -43,5 +43,13 @@ class GetProductDetailInStockAPI(RetrieveAPIView):
 
     def get_object(self):
         return Stock.objects.get(product_id=self.kwargs['product_id'])
+
+class PublicStockListAPI(ListAPIView):
+    serializer_class = GetProductDetailInStockSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return Stock.objects.all()
+
 
 

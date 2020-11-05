@@ -75,3 +75,19 @@ class GetProductFromStockTestCase(TestCase):
         
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, data)
+
+class PublicListOfStockTestCase(TestCase):
+    def setUp(self):
+        self.product1 = Product.objects.create(name='apple', price=300, description='juicy apple')
+        self.user = User.objects.create(phone_number='09121234567', password='password')
+        self.store = Provider.objects.create(owner=self.user, name='green', address='address')
+        self.stock = Stock.objects.create(store=self.store, product=self.product1, unit_in_stock=10)
+        
+        
+    def test_get_list_of_product(self):
+        url = reverse('public-list-of-stock')
+        res = self.client.get(url)
+        stocks = Stock.objects.all()
+        data = GetProductDetailInStockSerializer(stocks, many=True).data
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, data)
