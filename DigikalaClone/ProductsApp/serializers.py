@@ -11,8 +11,12 @@ class GetProductSmallSerializer(serializers.ModelSerializer):
 class StoreGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ['name']
+        fields = ['name', 'address']
 
+class AddStoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Store
+        fields = ['name', 'owner', 'address']
 
 class CreateProductSerializer(serializers.ModelSerializer):
     class Meta:

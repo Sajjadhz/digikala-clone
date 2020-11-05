@@ -1,10 +1,11 @@
-from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework import status, permissions
+from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
-from .serializers import AddProductToStockSerializer, GetSingleProductSerializer, CreateProductSerializer,GetProductDetailInStockSerializer
 from django.shortcuts import get_object_or_404
+from .serializers import (AddProductToStockSerializer, AddStoreSerializer, GetSingleProductSerializer, 
+                          CreateProductSerializer,GetProductDetailInStockSerializer,
+                          AddStoreSerializer, StoreGetSerializer)
 from .models import Product, Store, Stock
-from rest_framework import permissions
 
 
 
@@ -20,8 +21,29 @@ class GetSingleProductAPI(RetrieveAPIView):
     def get_object(self):
         return  Product.objects.get(id=self.kwargs['id'])
 
-class CreateStoreAPI(CreateAPIView):
-    serializer_class = ''
+class GetCreateStoreAPI(ListCreateAPIView):
+    serializer_class = AddStoreSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddStoreSerializer
+        else:
+            return StoreGetSerializer
+
+    def get_queryset(self):
+        return Store.objects.filter(owner=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        request.data['owner'] = request.user.id
+        return super().post(request, *args, **kwargs)
+
+class GetUserstorAPI(ListAPIView):
+    serializer_class = StoreGetSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Store.objects.filter(owner=self.request.user)
 
 class CreateStockForProductAPI(CreateAPIView):
     serializer_class = AddProductToStockSerializer
