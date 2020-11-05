@@ -26,6 +26,14 @@ class CreateGetProduct(APITestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         self.assertEqual(res.data, data)
 
+    def test_get_product(self):
+
+        url = reverse('get-product',kwargs={'id':self.product1.id})
+
+        res = self.client.get(url,)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, self.product1.jsonify())        
         
 
 

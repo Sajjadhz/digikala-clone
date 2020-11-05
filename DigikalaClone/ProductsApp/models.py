@@ -10,6 +10,14 @@ class Product(models.Model):
     description = models.CharField(max_length=40)
     price = models.BigIntegerField()
 
+    def jsonify(self):
+        return {
+            'id':self.id,
+            'name':self.name,
+            'price':self.price,
+            'description':self.description
+        }
+
 class Provider(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=35)
