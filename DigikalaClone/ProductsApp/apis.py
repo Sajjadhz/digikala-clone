@@ -1,11 +1,13 @@
 from rest_framework import status, permissions
 from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView, RetrieveAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .serializers import (AddProductToStockSerializer, AddStoreSerializer, GetSingleProductSerializer, 
-                          CreateProductSerializer,GetProductDetailInStockSerializer,
+                          CreateProductSerializer,GetProductDetailInStockSerializer,DigiKalaProductsSerializer,
                           AddStoreSerializer, StoreGetSerializer)
-from .models import Product, Store, Stock
+from .models import DigiKalaProducts, Product, Store, Stock
+from .tasks import update_products
 
 
 
@@ -75,5 +77,18 @@ class PublicStockListAPI(ListAPIView):
     def get_queryset(self):
         return Stock.objects.all()
 
+
+class UpdateDigiKalaAPI(ListAPIView):
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
+        update_products.delay()
+        return Response({'status': 'ok'})
+
+class DigiKalaProductsListAPI(ListAPIView):
+    serializer_class = DigiKalaProductsSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return DigiKalaProducts.objects.refine_by_queryparams(self.request)
 
 

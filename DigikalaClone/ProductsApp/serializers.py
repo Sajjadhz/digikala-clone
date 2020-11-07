@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Store, Stock
+from .models import DigiKalaProducts, Product, Store, Stock
 
 
 class GetProductSmallSerializer(serializers.ModelSerializer):
@@ -42,3 +42,8 @@ class GetSingleProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'price', 'description', 'name']
+
+class DigiKalaProductsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DigiKalaProducts
+        fields = ['price','name']
