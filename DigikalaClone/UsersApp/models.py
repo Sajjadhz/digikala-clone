@@ -15,7 +15,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'phone_number'
 
     def save(self, *args, **kwargs):
-        self.set_password(self.password)
+        if 'sha256' not in self.password:
+            self.set_password(self.password)
 
         return super().save(*args,**kwargs)
 
