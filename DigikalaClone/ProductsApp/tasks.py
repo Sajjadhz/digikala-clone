@@ -1,6 +1,7 @@
 import requests, bs4
-from .models import Product
-from celery import shared_task
+from .models import DigiKalaProducts
+from root.celery import celery_app
+
 
 def normalize_numbers(string):
     farsi = '۰۱۲۳۴۵۶۷۸۹'
@@ -11,13 +12,14 @@ def normalize_numbers(string):
         number+=english[place]
     return number
 
-@shared_task
-def populate_product():
+
+@celery_app.task
+def update_products():
     url = 'https://www.digikala.com/search/category-mobile-phone/?pageno='
     names = []
     prices = []
 
-    Product.objects.all().delete()
+    DigiKalaProducts.objects.all().delete()
 
     for page in range(1,4):
         print('page .....{}'.format(page))
@@ -31,7 +33,6 @@ def populate_product():
             name = char.text.encode('latin1', 'ignore').decode('UTF-8').strip()
             names.append(name)
         for char in html_prices:
-            
             price = char.text.strip().split(' ')[0].replace(',','')
             if price == '':
                 pass
@@ -40,4 +41,4 @@ def populate_product():
         print('finish page ....{}'.format(page))
 
     for i in range(0, len(names)):
-        Product.objects.create(name=names[i], price=prices[i])
+        DigiKalaProducts.objects.create(name=names[i], price=prices[i])
