@@ -12,7 +12,7 @@ def normalize_numbers(string):
         place = farsi.find(char)
         number+=english[place]
     number = int(number)
-    print(f'{string} to {number}')
+    
     return number
 
 
@@ -27,8 +27,8 @@ def update_products():
 
     for page in range(1,4):
         print('page .....{}'.format(page))
-        page = requests.get(url + str(page))
-        soup = bs4.BeautifulSoup(page.text, 'html.parser')
+        source = requests.get(url + str(page))
+        soup = bs4.BeautifulSoup(source.text, 'html.parser')
 
         html_names = soup.select('div.c-product-box__content--row')
         html_prices = soup.select('div.c-price__value-wrapper')

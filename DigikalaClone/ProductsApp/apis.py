@@ -11,10 +11,12 @@ from .tasks import update_products
 
 
 
-class CreateProductAPI(CreateAPIView):
+class ListCreateProductAPI(ListCreateAPIView):
     serializer_class = CreateProductSerializer
     permission_classes = [permissions.IsAuthenticated]
-
+    
+    def get_queryset(self):
+        return Product.objects.all()
 
 class GetSingleProductAPI(RetrieveAPIView):
     serializer_class = GetSingleProductSerializer
@@ -52,14 +54,13 @@ class CreateStockForProductAPI(CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        store_id = self.kwargs['store_id']
         product_id = self.kwargs['product_id']
-        get_object_or_404(Product.objects.filter(id=product_id))
-        
-        if get_object_or_404(Store.objects.filter(id=store_id)).owner != request.user:
-            return Response({'error': 'You are not owner of store'}, status=status.HTTP_403_FORBIDDEN)
-
-        request.data['store'] = store_id
+        product = get_object_or_404(Product.objects.filter(id=product_id))
+        store = get_object_or_404(Store.objects.filter(owner_id=request.user.id))
+        if Stock.objects.filter(store=store, product=product).count() != 0:
+            return Response({'error':'This product is already registered in stock'})
+        request.data['store'] = store.id
+        request.data['product'] = product_id
         return super().post(request, *args, **kwargs)
 
 

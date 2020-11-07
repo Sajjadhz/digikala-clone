@@ -1,6 +1,7 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import DigiKalaProducts, Product, Store, Stock
-
+from rest_framework.validators import UniqueTogetherValidator
 
 class GetProductSmallSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,17 +12,21 @@ class GetProductSmallSerializer(serializers.ModelSerializer):
 class StoreGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ['name', 'address']
+        fields = ['name', 'address','id']
+
 
 class AddStoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ['name', 'owner', 'address']
+      
+            
 
 class CreateProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['price', 'description', 'name',]
+        fields = ['price', 'description', 'name','id']
+        extra_kwargs = {'id':{'read_only':True}}
 
 
 class AddProductToStockSerializer(serializers.ModelSerializer):
