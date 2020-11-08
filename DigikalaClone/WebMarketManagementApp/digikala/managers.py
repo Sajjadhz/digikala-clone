@@ -6,8 +6,9 @@ class DigiKalaManager(manager.Manager):
         if self.filter(name=name).count() == 1:
             instance = self.get(name=name)
             if (instance.price != price):
-                # log_change() to record the changes happend
-                instance.update(price=price)
+                from .models import ChangeLogProduct
+                # record the changes happend
+                instance.update_and_log(price=price)
         else:
             self.create(name=name, price=price)
 

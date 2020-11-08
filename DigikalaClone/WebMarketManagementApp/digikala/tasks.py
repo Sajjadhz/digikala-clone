@@ -1,6 +1,6 @@
 from celery.app import shared_task
 import requests, bs4
-from .models import DigiKalaProducts
+from .models import DigiKalaProduct
 from root.celery import celery_app
 
 
@@ -45,4 +45,4 @@ def update_products():
         print('finish page ....{}'.format(page))
 
     for i in range(0, len(names)):
-        DigiKalaProducts.objects.update_or_create(name=names[i], price=prices[i])
+        DigiKalaProduct.objects.update_or_create(name=names[i], price=prices[i])

@@ -1,7 +1,9 @@
-from .models import DigiKalaProducts
+from .models import DigiKalaProduct, ChangeLogProduct
 from django.contrib import admin
 
-# Register your models here.
-@admin.register(DigiKalaProducts)
-class DigiKalaProductsAdmin(admin.ModelAdmin):
+
+admin.site.register(ChangeLogProduct)
+
+@admin.register(DigiKalaProduct)
+class DigiKalaProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'price']
