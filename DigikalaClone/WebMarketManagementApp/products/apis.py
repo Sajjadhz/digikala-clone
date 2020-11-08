@@ -24,7 +24,7 @@ class GetSingleProductAPI(RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        return  Product.objects.get(id=self.kwargs['id'])
+        return  get_object_or_404(Product.objects.filter(id=self.kwargs['id']))
 
 
 
@@ -49,7 +49,7 @@ class GetProductDetailInStockAPI(RetrieveAPIView):
     permission_classes =[permissions.IsAuthenticated]
 
     def get_object(self):
-        return Stock.objects.get(product_id=self.kwargs['product_id'])
+        return get_object_or_404(Stock.objects.get(product_id=self.kwargs['product_id']))
 
 
 class PublicStockListAPI(ListAPIView):
