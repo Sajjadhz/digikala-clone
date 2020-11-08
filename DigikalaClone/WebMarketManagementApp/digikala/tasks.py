@@ -30,7 +30,7 @@ def update_products():
         source = requests.get(url + str(page))
         soup = bs4.BeautifulSoup(source.text, 'html.parser')
 
-        html_names = soup.select('div.c-product-box__content--row')
+        html_names = soup.select('div.c-product-box__title-en')
         html_prices = soup.select('div.c-price__value-wrapper')
 
         for char in html_names:
@@ -46,3 +46,4 @@ def update_products():
 
     for i in range(0, len(names)):
         DigiKalaProduct.objects.update_or_create(name=names[i], price=prices[i])
+    print('All products has been updated')
