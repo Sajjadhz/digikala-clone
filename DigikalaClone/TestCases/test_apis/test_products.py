@@ -1,10 +1,13 @@
+from WebMarketManagementApp.stores.models import Stock, Store
+from WebMarketManagementApp.stores.serializers import StoreGetSerializer
+from WebMarketManagementApp.products.models import Product
+from WebMarketManagementApp.products.serializers import GetProductDetailInStockSerializer
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework.test import APITestCase
-from ProductsApp.models import Product, Store, Stock
-from ProductsApp.serializers import GetProductDetailInStockSerializer, StoreGetSerializer
-from rest_framework import status
 
+
+from rest_framework import status
 User = get_user_model()
 
 class CreateGetProductTestCase(APITestCase):
@@ -25,7 +28,7 @@ class CreateGetProductTestCase(APITestCase):
         res = self.client.post(url, data, 'json')
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(res.data, data)
+        self.assertEqual(res.data,Product.objects.get(**data).jsonify() )
 
 
     def test_get_product(self):
@@ -50,8 +53,9 @@ class CreateUserStoreTestCase(APITestCase):
             'owner':self.user.id
         }
 
-        url = reverse('user-store')
+        url = reverse('create-store')
         res = self.client.post(url, data, 'json')
+        
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         self.assertEqual(res.data, data)
     

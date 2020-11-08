@@ -1,4 +1,3 @@
-from django.db.models import Manager
 from django.db.models import manager
 
 
@@ -6,7 +5,9 @@ class DigiKalaManager(manager.Manager):
     def create_or_update(self, name, price):
         if self.filter(name=name).count() == 1:
             instance = self.get(name=name)
-            instance.update(price=price)
+            if (instance.price != price):
+                # log_change() to record the changes happend
+                instance.update(price=price)
         else:
             self.create(name=name, price=price)
 

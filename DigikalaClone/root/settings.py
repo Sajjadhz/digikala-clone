@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'ProductsApp',
+    'WebMarketManagementApp.digikala',
+    'WebMarketManagementApp.products',
+    'WebMarketManagementApp.stores',
     'UsersApp',
 ]
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from ProductsApp.models import Product, Store, Stock
-
+from WebMarketManagementApp.products.models import Product
+from WebMarketManagementApp.stores.models import Store, Stock
 User = get_user_model()
 
 class ProductModelTestCase(TestCase):
@@ -48,3 +48,7 @@ class StockModelTestCase(TestCase):
             'product': self.product,
             'unit_in_stock': 20
         }
+
+        stock = Stock.objects.create(**data)
+        self.assertEqual(Stock.objects.count(), 1)
+        self.assertEqual(stock, Stock.objects.get(**data))

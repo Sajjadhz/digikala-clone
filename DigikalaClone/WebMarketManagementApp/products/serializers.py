@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
+from WebMarketManagementApp.stores.models import Store, Stock
+from WebMarketManagementApp.stores.serializers import StoreGetSerializer
 from rest_framework import serializers
-from .models import DigiKalaProducts, Product, Store, Stock
+from .models import  Product
 from rest_framework.validators import UniqueTogetherValidator
 
 class GetProductSmallSerializer(serializers.ModelSerializer):
@@ -8,18 +10,6 @@ class GetProductSmallSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['id', 'price', 'name',]
 
-
-class StoreGetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Store
-        fields = ['name', 'address','id']
-
-
-class AddStoreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Store
-        fields = ['name', 'owner', 'address']
-      
             
 
 class CreateProductSerializer(serializers.ModelSerializer):
@@ -48,7 +38,3 @@ class GetSingleProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['id', 'price', 'description', 'name']
 
-class DigiKalaProductsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DigiKalaProducts
-        fields = ['price','name']

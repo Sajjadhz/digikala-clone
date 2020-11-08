@@ -20,7 +20,7 @@ celery_app.autodiscover_tasks()
 # add periodic task for django celery-beat
 celery_app.conf.beat_schedule = {
     'update-digikala': {
-        'task': 'ProductsApp.tasks.update_products',
+        'task': 'WebMarketManagementApp.digikala.tasks.update_products',
         'schedule': crontab(minute='*',hour='*/3'),
         
     },
